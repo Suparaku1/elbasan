@@ -1,0 +1,6 @@
+# Krijo .gitignore të thjeshtë
+".next/
+node_modules/
+.next/
+*.log
+.env" | Out-File -FilePath .gitignore -Encoding utf8
