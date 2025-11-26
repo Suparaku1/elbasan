@@ -41,6 +41,7 @@
     "@radix-ui/react-tooltip": "1.1.6",
     "@react-three/drei": "latest",
     "@react-three/fiber": "latest",
+    "@types/three": "^0.181.0",
     "@vercel/analytics": "latest",
     "ai": "5.0.100",
     "autoprefixer": "^10.4.20",
@@ -70,7 +71,7 @@
     "sonner": "^1.7.4",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
-    "three": "latest",
+    "three": "^0.181.2",
     "vaul": "^1.1.2",
     "zod": "3.25.76"
   },
