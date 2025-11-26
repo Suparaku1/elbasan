@@ -1,84 +1,90 @@
 export interface CulturalPoint {
   id: string
   name: string
-  type: "Kalaja" | "Muze" | "Xhami" | "Kishë" | "Shtëpi Kulturore" | "Natyrë"
+  type: string
+  location: string
+  coordinates: {
+    lat: number
+    lng: number
+  }
+  images: string[]
   shortDescription: string
   detailedDescription: string
-  images: string[]
-  location: string
-  coordinates: { lat: number; lng: number }
+  rating: number
   features: string[]
-  rating: number // Initial rating
-  reviews: number // Initial review count
 }
 
 export const culturalPoints: CulturalPoint[] = [
   {
-    id: "kalaja-e-elbasanit",
+    id: "kalaja",
     name: "Kalaja e Elbasanit",
     type: "Kalaja",
-    shortDescription: "Një nga kalatë fushore më të mëdha në Ballkan, zemra historike e qytetit.",
-    detailedDescription:
-      "Kalaja e Elbasanit është një monument i rëndësishëm i trashëgimisë kulturore shqiptare. E ndërtuar fillimisht në shekullin e 4-të e.s. dhe e rindërtuar nga Sulltan Mehmeti II në vitin 1466, ajo përfaqëson një ndërthurje të kulturave romake, bizantine dhe osmane. Muret e saj rrethojnë lagjen e vjetër 'Kala', ku jeta vazhdon edhe sot mes rrugicave me kalldrëm dhe shtëpive karakteristike.",
-    images: ["/elbasan-castle-walls.jpg", "/elbasan-castle-gate.jpg"],
     location: "Qendër, Elbasan",
-    coordinates: { lat: 41.1125, lng: 20.0822 },
-    features: ["Arkitekturë Mesjetare", "Lagje e Banimit", "Monument Kulture", "Panoramike"],
-    rating: 4.8,
-    reviews: 124,
+    coordinates: {
+      lat: 41.1125,
+      lng: 20.0822
+    },
+    images: [
+      "/images/kalaja-1.jpg",
+      "/images/kalaja-2.jpg"
+    ],
+    shortDescription: "Kalaja e lashtë romake e shekullit të 3-të me mure të forta dhe histori të pasur.",
+    detailedDescription: "Kalaja e Elbasanit është një monument i rëndësishëm historik i cili daton që nga shekulli i 3-të. Ajo u ndërtua nga perandori romak Justinian I dhe ka qenë një qendër e rëndësishme ushtarake dhe tregtare gjatë historisë. Murat e saj të fortë kanë rezistuar teste kohore dhe luftërash të shumta.",
+    rating: 4.7,
+    features: ["Arkitekturë Antike", "Mure të Forta", "Pamje Panoramike", "Monument Kulturore"]
   },
   {
     id: "muzeu-etnografik",
     name: "Muzeu Etnografik",
     type: "Muze",
-    shortDescription: "Një shtëpi karakteristike e shekullit të 18-të e shndërruar në muze.",
-    detailedDescription:
-      "Muzeu Etnografik i Elbasanit ndodhet në një shtëpi karakteristike me çardak të shekullit të 18-të, pranë Kalasë. Muzeu pasqyron kulturën, traditën dhe mënyrën e jetesës së qytetarëve elbasanas ndër shekuj. Aty ekspozohen veshje popullore, vegla pune, orendi shtëpiake dhe objekte të tjera me vlerë të veçantë historike.",
-    images: ["/ethnographic-museum-elbasan.jpg", "/traditional-albanian-costumes.jpg"],
-    location: "Rruga 'Qemal Stafa'",
-    coordinates: { lat: 41.1118, lng: 20.0815 },
-    features: ["Histori", "Etnografi", "Artizanat", "Arkitekturë Tradicionale"],
-    rating: 4.6,
-    reviews: 85,
+    location: "Qendër, Elbasan",
+    coordinates: {
+      lat: 41.1130,
+      lng: 20.0835
+    },
+    images: [
+      "/images/muzeu-1.jpg",
+      "/images/muzeu-2.jpg"
+    ],
+    shortDescription: "Muze që prezanton traditat dhe kulturën popullore të rajonit të Elbasanit.",
+    detailedDescription: "Muzeu Etnografik i Elbasanit ofron një pasqyrë të pasur të jetës tradicionale shqiptare. Koleksionet përfshijnë veshje tradicionale, vegla muzikore, enë dhe artefakte të tjera që tregojnë historinë dhe kulturën e rajonit.",
+    rating: 4.5,
+    features: ["Koleksione Tradicionale", "Veshje Popullore", "Vegla Muzikore", "Edukative"]
   },
   {
-    id: "kisha-shen-maria",
-    name: "Kisha e Shën Marisë",
+    id: "kisha",
+    name: "Kisha e Shën Mërisë",
     type: "Kishë",
-    shortDescription: "Një monument i rëndësishëm kulti dhe arti brenda mureve të Kalasë.",
-    detailedDescription:
-      "Kisha e Shën Marisë ndodhet brenda mureve të Kalasë së Elbasanit. E rindërtuar në vitin 1833 mbi themelet e një kishë më të vjetër, ajo shquhet për ikonostasin e saj të mrekullueshëm të gdhendur në dru dhe afresket e realizuara nga mjeshtrat e famshëm shqiptarë. Kisha shërben si një dëshmi e bashkëjetesës fetare dhe artit post-bizantin në qytet.",
-    images: ["/saint-mary-church-elbasan.jpg"],
-    location: "Brenda Kalasë, Elbasan",
-    coordinates: { lat: 41.1128, lng: 20.0825 },
-    features: ["Art Post-Bizantin", "Ikonostas i rrallë", "Vend Kulti", "Qetësi"],
-    rating: 4.7,
-    reviews: 92,
+    location: "Qendër, Elbasan",
+    coordinates: {
+      lat: 41.1115,
+      lng: 20.0818
+    },
+    images: [
+      "/images/kisha-1.jpg",
+      "/images/kisha-2.jpg"
+    ],
+    shortDescription: "Kishë e vjetër ortodokse me ikona të vlefshme dhe arkitekturë unike.",
+    detailedDescription: "Kisha e Shën Mërisë është një nga kishët më të vjetra në rajon, me një histori të pasur fetare dhe kulturore. Ajo shërben si një qendër e rëndësishme për komunitetin ortodoks lokal dhe është e njohur për ikonat e saj të vlefshme dhe arkitekturën e veçantë.",
+    rating: 4.6,
+    features: ["Arkitekturë Fetare", "Ikona të Vlefshme", "Vend Pushimi", "Historike"]
   },
   {
     id: "xhamia-mbret",
-    name: "Xhamia Mbret",
+    name: "Xhamia e Mbretit",
     type: "Xhami",
-    shortDescription: "Një nga xhamitë më të vjetra në Shqipëri, e ndërtuar rreth vitit 1492.",
-    detailedDescription:
-      "Xhamia Mbret është një nga monumentet më të vjetra të kultit islam në Shqipëri, e ndërtuar në fund të shekullit të 15-të. Ajo ndodhet në qendër të kalasë dhe karakterizohet nga arkitektura e thjeshtë por elegante e periudhës së hershme osmane. Xhamia ka luajtur një rol të rëndësishëm në jetën shpirtërore të komunitetit për shekuj me radhë.",
-    images: ["/king-mosque-elbasan.jpg"],
-    location: "Brenda Kalasë, Elbasan",
-    coordinates: { lat: 41.1122, lng: 20.082 },
-    features: ["Arkitekturë Islame", "Histori", "Vend Kulti"],
-    rating: 4.5,
-    reviews: 76,
-  },
+    location: "Qendër, Elbasan",
+    coordinates: {
+      lat: 41.1142,
+      lng: 20.0841
+    },
+    images: [
+      "/images/xhamia-1.jpg",
+      "/images/xhamia-2.jpg"
+    ],
+    shortDescription: "Xhami e vjetër osmane me minare dhe arkitekturë karakteristike të periudhës.",
+    detailedDescription: "Xhamia e Mbretit është një monument i rëndësishëm i periudhës osmane në Elbasan. Ndërtesa është një shembull i shkëlqyer i arkitekturës islame dhe ka shërbyer si qendër fetare për komunitetin musliman për shekuj me radhë.",
+    rating: 4.4,
+    features: ["Arkitekturë Osmane", "Minare", "Vend Fetar", "Monument"]
+  }
 ]
-
-export const creatorInfo = {
-  name: "Esmerald Suparaku",
-  role: "Zhvillues Full-Stack & Pasionant i Kulturës",
-  education: "Inxhinieri Elektronike",
-  bio: "Pasion për teknologjinë dhe trashëgiminë kulturore. Ky projekt është realizuar në kuadër të EU Code Week për të promovuar vlerat e qytetit të Elbasanit përmes inovacionit digjital.",
-  contact: "elektroniksuparakud@email.com",
-  social: {
-    linkedin: "#",
-    github: "#",
-  },
-}

@@ -1,146 +1,150 @@
 "use client"
 
-import type React from "react"
-
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Star, User } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 interface Review {
   id: string
-  name: string
+  userName: string
   rating: number
   comment: string
   date: string
 }
 
-export function ReviewSystem({ pointId }: { pointId: string }) {
-  const [reviews, setReviews] = useState<Review[]>([])
-  const [newReview, setNewReview] = useState({ name: "", rating: 5, comment: "" })
-  const [isSubmitting, setIsSubmitting] = useState(false)
+interface ReviewSystemProps {
+  pointId: string
+}
 
-  // Load reviews from localStorage on mount
-  useEffect(() => {
-    const savedReviews = localStorage.getItem(`reviews-${pointId}`)
-    if (savedReviews) {
-      setReviews(JSON.parse(savedReviews))
-    } else {
-      // Add some dummy reviews if none exist
-      setReviews([
-        {
-          id: "1",
-          name: "Esmerald Suparaku",
-          rating: 5,
-          comment: "Vend i mrekullueshëm, plot histori!",
-          date: new Date().toLocaleDateString("sq-AL"),
-        },
-      ])
-    }
-  }, [pointId])
+export function ReviewSystem({ pointId }: ReviewSystemProps) {
+  const [reviews, setReviews] = useState<Review[]>([])
+  const [newReview, setNewReview] = useState({
+    userName: "",
+    rating: 0,
+    comment: ""
+  })
+  const [showForm, setShowForm] = useState(false)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    setIsSubmitting(true)
+    if (newReview.rating === 0 || !newReview.userName.trim()) return
 
     const review: Review = {
       id: Date.now().toString(),
-      name: newReview.name || "Anonim",
+      userName: newReview.userName,
       rating: newReview.rating,
       comment: newReview.comment,
-      date: new Date().toLocaleDateString("sq-AL"),
+      date: new Date().toLocaleDateString('sq-AL')
     }
 
-    const updatedReviews = [review, ...reviews]
-    setReviews(updatedReviews)
-    localStorage.setItem(`reviews-${pointId}`, JSON.stringify(updatedReviews))
-
-    // Reset form
-    setNewReview({ name: "", rating: 5, comment: "" })
-    setIsSubmitting(false)
+    setReviews([review, ...reviews])
+    setNewReview({ userName: "", rating: 0, comment: "" })
+    setShowForm(false)
   }
 
   return (
-    <div className="space-y-8">
-      <div className="bg-card border rounded-lg p-6">
-        <h3 className="text-xl font-bold mb-4">Lini një vlerësim</h3>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2">
+    <section className="border-t pt-8">
+      <h3 className="text-2xl font-bold mb-6">Vlerësimet e Vizitorëve</h3>
+      
+      <div className="space-y-6">
+        {/* Review Form */}
+        {showForm ? (
+          <form onSubmit={handleSubmit} className="p-6 border rounded-lg bg-card space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-1">Emri</label>
+              <label className="text-sm font-medium mb-2 block">Emri</label>
               <input
                 type="text"
+                value={newReview.userName}
+                onChange={(e) => setNewReview(prev => ({ ...prev, userName: e.target.value }))}
+                className="w-full p-2 border rounded-md"
+                placeholder="Shkruani emrin tuaj"
                 required
-                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                placeholder="Emri juaj"
-                value={newReview.name}
-                onChange={(e) => setNewReview({ ...newReview, name: e.target.value })}
               />
             </div>
+            
             <div>
-              <label className="block text-sm font-medium mb-1">Vlerësimi</label>
-              <select
-                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                value={newReview.rating}
-                onChange={(e) => setNewReview({ ...newReview, rating: Number(e.target.value) })}
-              >
-                <option value="5">⭐⭐⭐⭐⭐ (Shkëlqyer)</option>
-                <option value="4">⭐⭐⭐⭐ (Shumë mirë)</option>
-                <option value="3">⭐⭐⭐ (Mirë)</option>
-                <option value="2">⭐⭐ (Mesatar)</option>
-                <option value="1">⭐ (Dobët)</option>
-              </select>
+              <label className="text-sm font-medium mb-2 block">Vlerësimi</label>
+              <div className="flex gap-1">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <button
+                    key={star}
+                    type="button"
+                    onClick={() => setNewReview(prev => ({ ...prev, rating: star }))}
+                    className="text-2xl focus:outline-none"
+                  >
+                    <Star
+                      className={`w-6 h-6 ${
+                        star <= newReview.rating
+                          ? "fill-yellow-400 text-yellow-400"
+                          : "text-gray-300"
+                      }`}
+                    />
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">Komenti</label>
-            <textarea
-              required
-              className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm min-h-[100px]"
-              placeholder="Shkruani eksperiencën tuaj..."
-              maxLength={250}
-              value={newReview.comment}
-              onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
-            />
-            <div className="text-xs text-muted-foreground text-right mt-1">{newReview.comment.length}/250</div>
-          </div>
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full md:w-auto px-6 py-2 bg-primary text-primary-foreground rounded-md font-medium hover:bg-primary/90 disabled:opacity-50"
-          >
-            {isSubmitting ? "Duke dërguar..." : "Dërgo Vlerësimin"}
-          </button>
-        </form>
-      </div>
+            
+            <div>
+              <label className="text-sm font-medium mb-2 block">Komenti</label>
+              <textarea
+                value={newReview.comment}
+                onChange={(e) => setNewReview(prev => ({ ...prev, comment: e.target.value }))}
+                className="w-full p-2 border rounded-md h-24"
+                placeholder="Shkruani komentin tuaj..."
+              />
+            </div>
+            
+            <div className="flex gap-2">
+              <Button type="submit">Posto Vlerësimin</Button>
+              <Button type="button" variant="outline" onClick={() => setShowForm(false)}>
+                Anulo
+              </Button>
+            </div>
+          </form>
+        ) : (
+          <Button onClick={() => setShowForm(true)}>
+            Shkruaj një Vlerësim
+          </Button>
+        )}
 
-      <div className="space-y-4">
-        <h3 className="text-xl font-bold">Vlerësimet e Vizitorëve ({reviews.length})</h3>
-        <div className="grid gap-4">
-          {reviews.map((review) => (
-            <div key={review.id} className="border rounded-lg p-4 bg-background">
-              <div className="flex items-start justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center">
-                    <User className="h-4 w-4 text-muted-foreground" />
+        {/* Reviews List */}
+        <div className="space-y-4">
+          {reviews.length > 0 ? (
+            reviews.map((review) => (
+              <div key={review.id} className="p-4 border rounded-lg">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                    <User className="w-4 h-4 text-primary" />
                   </div>
                   <div>
-                    <div className="font-semibold text-sm">{review.name}</div>
-                    <div className="text-xs text-muted-foreground">{review.date}</div>
+                    <div className="font-medium">{review.userName}</div>
+                    <div className="flex items-center gap-1">
+                      <div className="flex">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Star
+                            key={star}
+                            className={`w-4 h-4 ${
+                              star <= review.rating
+                                ? "fill-yellow-400 text-yellow-400"
+                                : "text-gray-300"
+                            }`}
+                          />
+                        ))}
+                      </div>
+                      <span className="text-sm text-muted-foreground ml-2">{review.date}</span>
+                    </div>
                   </div>
                 </div>
-                <div className="flex">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`h-4 w-4 ${i < review.rating ? "fill-yellow-400 text-yellow-400" : "text-muted"}`}
-                    />
-                  ))}
-                </div>
+                <p className="text-muted-foreground">{review.comment}</p>
               </div>
-              <p className="text-sm text-foreground/80">{review.comment}</p>
+            ))
+          ) : (
+            <div className="text-center py-8 text-muted-foreground">
+              <p>Akoma nuk ka vlerësime. Bëhu i pari që vlerëson!</p>
             </div>
-          ))}
+          )}
         </div>
       </div>
-    </div>
+    </section>
   )
 }
